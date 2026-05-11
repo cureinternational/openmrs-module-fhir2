@@ -16,3 +16,8 @@ CVE-2022-42889
 
 # ucum - XXE vulnerability
 CVE-2024-55887
+
+# Thymeleaf SSTI vulnerabilities - transitive dependency, upgrade requires 3.1.x
+CVE-2026-40477
+CVE-2026-40478
+CVE-2026-41901

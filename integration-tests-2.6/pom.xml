@@ -10,6 +10,10 @@
     <artifactId>fhir2-integration-tests-2.6</artifactId>
     <name>FHIR2 Integration Tests 2.6</name>
 
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>

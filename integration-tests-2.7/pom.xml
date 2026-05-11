@@ -10,10 +10,6 @@
     <artifactId>fhir2-integration-tests-2.7</artifactId>
     <name>FHIR2 Integration Tests 2.7</name>
 
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -139,6 +135,7 @@
     </build>
 
     <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
         <openmrsPlatformVersion>2.7.0</openmrsPlatformVersion>
     </properties>
 

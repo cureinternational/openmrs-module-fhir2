@@ -1,0 +1,18 @@
+# Transitive HAPI FHIR (org.hl7.fhir.core) vulnerabilities
+# Fixing requires major version upgrade (6.x) which risks breaking API compatibility
+CVE-2023-24057
+CVE-2026-33180
+CVE-2023-28465
+CVE-2024-45294
+CVE-2024-51132
+CVE-2024-52007
+CVE-2026-34359
+
+# okhttp - major version bump required
+CVE-2021-0341
+
+# commons-text - RCE via variable interpolation
+CVE-2022-42889
+
+# ucum - XXE vulnerability
+CVE-2024-55887

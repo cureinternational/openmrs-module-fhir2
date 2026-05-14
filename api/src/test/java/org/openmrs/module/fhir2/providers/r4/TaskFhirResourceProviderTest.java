@@ -27,6 +27,9 @@ import java.util.List;
 import ca.uhn.fhir.model.api.Include;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.api.server.IBundleProvider;
+import ca.uhn.fhir.rest.param.ReferenceAndListParam;
+import ca.uhn.fhir.rest.param.ReferenceOrListParam;
+import ca.uhn.fhir.rest.param.ReferenceParam;
 import ca.uhn.fhir.rest.param.TokenAndListParam;
 import ca.uhn.fhir.rest.param.TokenOrListParam;
 import ca.uhn.fhir.rest.param.TokenParam;
@@ -60,6 +63,8 @@ public class TaskFhirResourceProviderTest extends BaseFhirProvenanceResourceTest
 	private static final String TASK_UUID = "bdd7e368-3d1a-42a9-9538-395391b64adf";
 	
 	private static final String WRONG_TASK_UUID = "df34a1c1-f57b-4c33-bee5-e601b56b9d5b";
+	
+	private static final String OBSERVATION_UUID = "f1937b1a-dfff-43ac-ba9c-a62a48620b28";
 	
 	private static final int START_INDEX = 0;
 	
@@ -180,7 +185,7 @@ public class TaskFhirResourceProviderTest extends BaseFhirProvenanceResourceTest
 		statusToken.setValue("ACCEPTED");
 		status.addAnd(new TokenOrListParam().add(statusToken));
 		
-		IBundleProvider results = resourceProvider.searchTasks(null, null, null, null, status, null, null, null, null);
+		IBundleProvider results = resourceProvider.searchTasks(null, null, null, null, null, status, null, null, null, null);
 		
 		List<IBaseResource> resultList = get(results);
 		
@@ -207,7 +212,8 @@ public class TaskFhirResourceProviderTest extends BaseFhirProvenanceResourceTest
 		when(taskService.searchForTasks(new TaskSearchParams(null, null, null, null, null, null, null, null, includes)))
 		        .thenReturn(new MockIBundleProvider<>(Arrays.asList(task, new Patient()), PREFERRED_PAGE_SIZE, COUNT));
 		
-		IBundleProvider results = resourceProvider.searchTasks(null, null, null, null, null, null, null, null, includes);
+		IBundleProvider results = resourceProvider.searchTasks(null, null, null, null, null, null, null, null, null,
+		    includes);
 		
 		List<IBaseResource> resources = getResources(results);
 		
@@ -227,7 +233,8 @@ public class TaskFhirResourceProviderTest extends BaseFhirProvenanceResourceTest
 		when(taskService.searchForTasks(new TaskSearchParams(null, null, null, null, null, null, null, null, includes)))
 		        .thenReturn(new MockIBundleProvider<>(Arrays.asList(task, new Practitioner()), PREFERRED_PAGE_SIZE, COUNT));
 		
-		IBundleProvider results = resourceProvider.searchTasks(null, null, null, null, null, null, null, null, includes);
+		IBundleProvider results = resourceProvider.searchTasks(null, null, null, null, null, null, null, null, null,
+		    includes);
 		
 		List<IBaseResource> resources = getResources(results);
 		
@@ -247,7 +254,8 @@ public class TaskFhirResourceProviderTest extends BaseFhirProvenanceResourceTest
 		when(taskService.searchForTasks(new TaskSearchParams(null, null, null, null, null, null, null, null, includes)))
 		        .thenReturn(new MockIBundleProvider<>(Arrays.asList(task, new Encounter()), PREFERRED_PAGE_SIZE, COUNT));
 		
-		IBundleProvider results = resourceProvider.searchTasks(null, null, null, null, null, null, null, null, includes);
+		IBundleProvider results = resourceProvider.searchTasks(null, null, null, null, null, null, null, null, null,
+		    includes);
 		
 		List<IBaseResource> resources = getResources(results);
 		
@@ -268,7 +276,8 @@ public class TaskFhirResourceProviderTest extends BaseFhirProvenanceResourceTest
 		        .thenReturn(
 		            new MockIBundleProvider<>(Arrays.asList(task, new ServiceRequest()), PREFERRED_PAGE_SIZE, COUNT));
 		
-		IBundleProvider results = resourceProvider.searchTasks(null, null, null, null, null, null, null, null, includes);
+		IBundleProvider results = resourceProvider.searchTasks(null, null, null, null, null, null, null, null, null,
+		    includes);
 		
 		List<IBaseResource> resources = getResources(results);
 		
@@ -278,6 +287,29 @@ public class TaskFhirResourceProviderTest extends BaseFhirProvenanceResourceTest
 		assertThat(resources.get(0).fhirType(), Matchers.equalTo(FhirConstants.TASK));
 		assertThat(resources.get(1).fhirType(), Matchers.equalTo(FhirConstants.SERVICE_REQUEST));
 		assertThat(resources.get(0).getIdElement().getIdPart(), Matchers.equalTo(TASK_UUID));
+	}
+	
+	@Test
+	public void searchTasks_shouldReturnMatchingTasksByFocusReference() {
+		//given
+		List<Task> tasks = new ArrayList<>();
+		tasks.add(task);
+		
+		ReferenceAndListParam focusReference = new ReferenceAndListParam()
+		        .addAnd(new ReferenceOrListParam().add(new ReferenceParam("Observation", null, OBSERVATION_UUID)));
+		
+		when(taskService.searchForTasks(any())).thenReturn(new MockIBundleProvider<>(tasks, PREFERRED_PAGE_SIZE, COUNT));
+		
+		//when
+		IBundleProvider results = resourceProvider.searchTasks(null, null, null, focusReference, null, null, null, null,
+		    null, null);
+		
+		//then
+		List<IBaseResource> resultList = get(results);
+		
+		assertThat(results, notNullValue());
+		assertThat(resultList, hasSize(greaterThanOrEqualTo(1)));
+		assertThat(resultList.iterator().next().fhirType(), equalTo(FhirConstants.TASK));
 	}
 	
 	private List<IBaseResource> getResources(IBundleProvider results) {

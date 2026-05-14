@@ -9,10 +9,8 @@
  */
 package org.openmrs.module.fhir2.spring;
 
-import org.openmrs.module.fhir2.api.dao.FhirConceptSourceDao;
 import org.openmrs.module.fhir2.api.dao.FhirDao;
 import org.openmrs.module.fhir2.api.dao.FhirDaoAop;
-import org.openmrs.module.fhir2.api.dao.impl.BaseDao;
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator;
 import org.springframework.beans.BeansException;

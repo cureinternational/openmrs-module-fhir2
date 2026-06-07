@@ -47,6 +47,7 @@ public class FhirTask extends BaseOpenmrsMetadata {
 		ACCEPTED,
 		COMPLETED,
 		DRAFT,
+		READY,
 		UNKNOWN
 	}
 	

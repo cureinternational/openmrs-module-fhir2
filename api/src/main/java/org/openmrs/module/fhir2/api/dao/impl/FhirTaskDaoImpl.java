@@ -106,7 +106,7 @@ public class FhirTaskDaoImpl extends BaseFhirDao<FhirTask> implements FhirTaskDa
 				}
 				
 				List<Optional<? extends Criterion>> criterionList = new ArrayList<>();
-				criterionList.add(Optional.of(eq(String.format("%s.reference", alias), param.getIdPart())));
+				criterionList.add(Optional.of(eq(String.format("%s.targetUuid", alias), param.getIdPart())));
 				criterionList.add(Optional.of(eq(String.format("%s.type", alias), param.getResourceType())));
 				return Optional.of(and(toCriteriaArray(criterionList)));
 			}

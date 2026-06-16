@@ -421,7 +421,7 @@ public class FhirTaskDaoImplTest extends BaseFhirContextSensitiveTest {
 		
 		FhirReference focusRef = new FhirReference();
 		focusRef.setType(FhirConstants.OBSERVATION);
-		focusRef.setReference(FOCUS_OBSERVATION_UUID);
+		focusRef.setReference(FhirConstants.OBSERVATION + "/" + FOCUS_OBSERVATION_UUID);
 		focusRef.setName("TEMP");
 		toUpdate.setFocusReference(focusRef);
 		dao.createOrUpdate(toUpdate);

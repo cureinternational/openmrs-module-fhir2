@@ -295,8 +295,8 @@ public class TaskFhirResourceProviderTest extends BaseFhirProvenanceResourceTest
 		List<Task> tasks = new ArrayList<>();
 		tasks.add(task);
 		
-		ReferenceAndListParam focusReference = new ReferenceAndListParam()
-		        .addAnd(new ReferenceOrListParam().add(new ReferenceParam("Observation", null, OBSERVATION_UUID)));
+		ReferenceAndListParam focusReference = new ReferenceAndListParam().addAnd(
+		    new ReferenceOrListParam().add(new ReferenceParam(FhirConstants.OBSERVATION, null, OBSERVATION_UUID)));
 		
 		when(taskService.searchForTasks(any())).thenReturn(new MockIBundleProvider<>(tasks, PREFERRED_PAGE_SIZE, COUNT));
 		

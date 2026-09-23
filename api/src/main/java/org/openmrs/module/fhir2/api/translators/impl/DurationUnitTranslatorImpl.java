@@ -48,9 +48,6 @@ public class DurationUnitTranslatorImpl implements DurationUnitTranslator {
 	public Timing.UnitsOfTime toFhirResource(@Nonnull Concept concept) {
 		String durationCode = Duration.getCode(concept);
 		Timing.UnitsOfTime unitsOfTime = codeMap.get(durationCode);
-		if (unitsOfTime == null) {
-			return Timing.UnitsOfTime.NULL;
-		}
 		return unitsOfTime;
 	}
 	

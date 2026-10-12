@@ -65,8 +65,7 @@ public class DurationUnitTranslatorImplTest extends BaseFhirContextSensitiveTest
 		
 		result = durationUnitTranslator.toFhirResource(concept);
 		
-		assertThat(result, notNullValue());
-		assertThat(result, equalTo(Timing.UnitsOfTime.NULL));
+		assertThat(result, nullValue());
 		
 	}
 	
